@@ -67,6 +67,7 @@ mod component {
     }
 
     /// Add or subtract a duration from a datetime.
+    #[allow(clippy::too_many_arguments)]
     #[act_tool(description = "Add or subtract duration from a datetime", read_only)]
     fn date_arithmetic(
         #[doc = "ISO 8601 datetime string"] datetime: String,
