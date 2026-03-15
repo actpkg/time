@@ -40,7 +40,7 @@ jobs:
           name: component.wasm
           path: target/wasm32-wasip2/release/
       - uses: actcore/act-cli/setup@main
-      - uses: taiki-e/install-action@v2
+      - uses: taiki-e/cache-cargo-install-action@v3
         with:
           tool: hurl
       - name: Run e2e tests
