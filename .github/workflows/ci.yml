@@ -40,7 +40,9 @@ jobs:
           name: component.wasm
           path: target/wasm32-wasip2/release/
       - uses: actcore/act-cli/setup@main
-      - uses: taiki-e/install-action@hurl
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: hurl
       - name: Run e2e tests
         run: |
           act serve target/wasm32-wasip2/release/*.wasm --listen "[::1]:3456" &
