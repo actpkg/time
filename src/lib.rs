@@ -5,7 +5,7 @@ use chrono_tz::Tz;
 #[act_component(
     name = "time",
     version = "0.1.0",
-    description = "Time and timezone utilities",
+    description = "Time and timezone utilities"
 )]
 mod component {
     use super::*;
@@ -32,12 +32,14 @@ mod component {
     #[act_tool(description = "Convert time between timezones", read_only)]
     fn convert_timezone(
         #[doc = "ISO 8601 / RFC 3339 datetime string"] time: String,
-        #[doc = "Source IANA timezone (used if datetime has no offset)"] from_timezone: Option<String>,
+        #[doc = "Source IANA timezone (used if datetime has no offset)"] from_timezone: Option<
+            String,
+        >,
         #[doc = "Target IANA timezone"] to_timezone: String,
     ) -> ActResult<String> {
-        let to_tz: Tz = to_timezone
-            .parse()
-            .map_err(|_| ActError::invalid_args(format!("Unknown target timezone: {to_timezone}")))?;
+        let to_tz: Tz = to_timezone.parse().map_err(|_| {
+            ActError::invalid_args(format!("Unknown target timezone: {to_timezone}"))
+        })?;
 
         // Try parsing as RFC 3339 first (has offset)
         if let Ok(dt) = DateTime::parse_from_rfc3339(&time) {
@@ -45,23 +47,20 @@ mod component {
         }
 
         // Parse as naive datetime + source timezone
-        let from_tz_str = from_timezone
-            .as_deref()
-            .ok_or_else(|| ActError::invalid_args("Datetime has no offset; provide from_timezone"))?;
-        let from_tz: Tz = from_tz_str
-            .parse()
-            .map_err(|_| ActError::invalid_args(format!("Unknown source timezone: {from_tz_str}")))?;
+        let from_tz_str = from_timezone.as_deref().ok_or_else(|| {
+            ActError::invalid_args("Datetime has no offset; provide from_timezone")
+        })?;
+        let from_tz: Tz = from_tz_str.parse().map_err(|_| {
+            ActError::invalid_args(format!("Unknown source timezone: {from_tz_str}"))
+        })?;
 
         let naive = NaiveDateTime::parse_from_str(&time, "%Y-%m-%dT%H:%M:%S")
             .or_else(|_| NaiveDateTime::parse_from_str(&time, "%Y-%m-%d %H:%M:%S"))
             .map_err(|e| ActError::invalid_args(format!("Cannot parse datetime: {e}")))?;
 
-        let src_dt = naive
-            .and_local_timezone(from_tz)
-            .single()
-            .ok_or_else(|| {
-                ActError::invalid_args("Ambiguous or invalid datetime in source timezone")
-            })?;
+        let src_dt = naive.and_local_timezone(from_tz).single().ok_or_else(|| {
+            ActError::invalid_args("Ambiguous or invalid datetime in source timezone")
+        })?;
 
         Ok(src_dt.with_timezone(&to_tz).to_rfc3339())
     }
@@ -85,21 +84,24 @@ mod component {
         let sign: i64 = match operation.as_str() {
             "add" => 1,
             "subtract" => -1,
-            _ => return Err(ActError::invalid_args("operation must be 'add' or 'subtract'")),
+            _ => {
+                return Err(ActError::invalid_args(
+                    "operation must be 'add' or 'subtract'",
+                ));
+            }
         };
 
         let mut result = dt.with_timezone(&Utc);
 
         // Handle years and months via chrono's date manipulation
         if let Some(y) = years {
-            let target_year = result.year() + (y as i32 * sign as i32);
+            let target_year = result.year() + (y * sign as i32);
             result = result
                 .with_year(target_year)
                 .ok_or_else(|| ActError::internal("Invalid year result"))?;
         }
         if let Some(m) = months {
-            let total_months =
-                result.year() * 12 + result.month0() as i32 + (m as i32 * sign as i32);
+            let total_months = result.year() * 12 + result.month0() as i32 + (m * sign as i32);
             let target_year = total_months.div_euclid(12);
             let target_month0 = total_months.rem_euclid(12) as u32;
             result = result
@@ -113,7 +115,7 @@ mod component {
             + Duration::hours(hours.unwrap_or(0) * sign)
             + Duration::minutes(minutes.unwrap_or(0) * sign)
             + Duration::seconds(seconds.unwrap_or(0) * sign);
-        result = result + dur;
+        result += dur;
 
         Ok(result.to_rfc3339())
     }
@@ -130,7 +132,7 @@ mod component {
             .filter(|name| {
                 filter
                     .as_ref()
-                    .map_or(true, |f| name.to_lowercase().contains(&f.to_lowercase()))
+                    .is_none_or(|f| name.to_lowercase().contains(&f.to_lowercase()))
             })
             .collect();
         serde_json::to_string_pretty(&names)
@@ -138,7 +140,10 @@ mod component {
     }
 
     /// Parse a datetime string and return structured components.
-    #[act_tool(description = "Parse a datetime string into structured components", read_only)]
+    #[act_tool(
+        description = "Parse a datetime string into structured components",
+        read_only
+    )]
     fn parse_datetime(
         #[doc = "Datetime string to parse (ISO 8601, RFC 3339, or common formats)"] input: String,
         #[doc = "IANA timezone for context (used if input has no offset)"] timezone: Option<String>,
