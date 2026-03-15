@@ -1,4 +1,4 @@
-POST {{host}}/tools/list-timezones
+POST http://[::1]:{{port}}/tools/list-timezones
 {"arguments": {"filter": "moscow"}}
 HTTP 200
 [Asserts]

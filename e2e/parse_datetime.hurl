@@ -1,4 +1,4 @@
-POST {{host}}/tools/parse-datetime
+POST http://[::1]:{{port}}/tools/parse-datetime
 {"arguments": {"input": "2024-06-15T10:30:00+00:00"}}
 HTTP 200
 [Asserts]

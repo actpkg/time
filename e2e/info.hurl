@@ -1,5 +1,5 @@
-GET {{host}}/info
+GET http://[::1]:{{port}}/info
 HTTP 200
 [Asserts]
-jsonpath "$.name" == "time"
-jsonpath "$.version" isString
+jsonpath "$['std:name']" == "time"
+jsonpath "$['std:version']" isString
