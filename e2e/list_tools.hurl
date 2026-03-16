@@ -1,4 +1,4 @@
-POST http://[::1]:{{port}}/tools
+POST {{baseurl}}/tools
 HTTP 200
 [Asserts]
 jsonpath "$.tools" count >= 5
@@ -9,7 +9,7 @@ jsonpath "$.tools[*].name" contains "list-timezones"
 jsonpath "$.tools[*].name" contains "parse-datetime"
 
 # QUERY method (safe, cacheable)
-QUERY http://[::1]:{{port}}/tools
+QUERY {{baseurl}}/tools
 HTTP 200
 [Asserts]
 jsonpath "$.tools" count >= 5
