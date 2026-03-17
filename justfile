@@ -6,6 +6,8 @@ baseurl := "http://" + addr
 
 init:
     wit-deps
+
+setup: init
     prek install
 
 build:
