@@ -1,4 +1,6 @@
-_commit: 7a5f5f5
+_commit: ae322be
 _src_path: https://github.com/actcore/act-component-template
-project_name: time
 description: Time and timezone utilities
+needs_filesystem: false
+needs_http: false
+project_name: time
