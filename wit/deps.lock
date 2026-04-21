@@ -1,4 +1,9 @@
 [act-core]
 url = "https://github.com/actcore/act-spec/archive/main.tar.gz"
-sha256 = "edb064c68aa6f3b2b8666bbab1c254ba716390aa3053d02e3eb86bbda640dab3"
-sha512 = "d894aa4aa43d79f89d363dd47346af5ecde692b4ea5b2a6485d78d86383c86080f4cff40dbd2f150309faec7c2b44a204ae5cedcd395880cad9c3dd622cacfca"
+sha256 = "cab53c14b838631d39742fa82f95c537cfa0c93eee06699bbf90da17b1ccd9d8"
+sha512 = "50ee6423e3d044440c82c3eb94f65b3beb153bdc6bf732c157f4bf4c298763e093ad64614be5b927130c124c282d4a358a21e9110ea478b819da820dc21101ba"
+
+[act-tools]
+url = "https://github.com/actcore/act-spec/archive/main.tar.gz"
+sha256 = "cab53c14b838631d39742fa82f95c537cfa0c93eee06699bbf90da17b1ccd9d8"
+sha512 = "50ee6423e3d044440c82c3eb94f65b3beb153bdc6bf732c157f4bf4c298763e093ad64614be5b927130c124c282d4a358a21e9110ea478b819da820dc21101ba"
