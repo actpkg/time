@@ -3,8 +3,13 @@ wasm := "target/wasm32-wasip2/release/component_time.wasm"
 act := env("ACT", "npx @actcore/act")
 actbuild := env("ACT_BUILD", "npx @actcore/act-build")
 hurl := env("HURL", "npx @orangeopensource/hurl")
-registry := env("OCI_REGISTRY", "ghcr.io/actpkg")
-port := `npx get-port-cli`
+# Publish under the repo owner's actpkg.dev namespace (actpkg username = GitHub
+# username). Derived from the git remote; override the whole path with OCI_REGISTRY.
+owner := `git remote get-url origin 2>/dev/null | sed -E 's#.*[:/]([^/]+)/[^/]+$#\1#' | tr 'A-Z' 'a-z'`
+registry := env("OCI_REGISTRY", "actpkg.dev/" + owner)
+# Random port for the e2e server, in a safe range: above the well-known/common
+# dev ports and below the Linux outbound ephemeral range (32768+).
+port := `shuf -i 10000-29999 -n 1`
 addr := "[::1]:" + port
 baseurl := "http://" + addr
 

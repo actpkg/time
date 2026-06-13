@@ -5,8 +5,8 @@ version = "0.2.0"
 edition = "2024"
 
 [dependencies]
-act-sdk = "0.6"
-wit-bindgen = { version = "0.57", features = ["async-spawn"] }
+act-sdk = "0.8"
+wit-bindgen = { version = "0.58", features = ["async-spawn"] }
 chrono = "0.4"
 chrono-tz = "0.10"
 
