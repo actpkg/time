@@ -1,11 +1,11 @@
 [package]
 name = "component-time"
 description = "Time and timezone utilities"
-version = "0.2.0"
+version = "0.2.1"
 edition = "2024"
 
 [dependencies]
-act-sdk = "0.8"
+act-sdk = "0.9"
 wit-bindgen = { version = "0.58", features = ["async-spawn"] }
 chrono = "0.4"
 chrono-tz = "0.10"

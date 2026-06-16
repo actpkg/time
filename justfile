@@ -20,7 +20,11 @@ setup: init
 build:
     cargo build --release
 
-test:
+# Embed act:component metadata and act:skill into the wasm.
+pack: build
+    {{actbuild}} pack {{wasm}}
+
+test: pack
     #!/usr/bin/env bash
     set -euo pipefail
     {{act}} run {{wasm}} --http --listen "{{addr}}" &
@@ -28,7 +32,7 @@ test:
     npx wait-on -t 180s {{baseurl}}/info
     {{hurl}} --test --variable "baseurl={{baseurl}}" e2e/*.hurl
 
-publish:
+publish: pack
     #!/usr/bin/env bash
     set -euo pipefail
     INFO=$({{act}} info {{wasm}} --format json)

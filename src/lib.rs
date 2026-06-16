@@ -2,8 +2,6 @@ use act_sdk::prelude::*;
 use chrono::Utc;
 use chrono_tz::Tz;
 
-act_sdk::embed_skill!("skill/");
-
 #[act_component]
 mod component {
     use super::*;
