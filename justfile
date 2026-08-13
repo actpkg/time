@@ -26,8 +26,11 @@ build:
 pack:
     {{actbuild}} pack {{wasm}}
 
+# Rust rmcp e2e suite. Must run from inside e2e/ — cargo discovers
+# e2e/.cargo/config.toml (the host-target pin) from the CWD, not the
+# manifest path, so invoking from the component root would build for wasm.
 test: build
-    ACT="{{act}}" uv run --project e2e pytest e2e/ -v
+    cd e2e && ACT="{{act}}" WASM="../{{wasm}}" cargo test
 
 publish: build
     #!/usr/bin/env bash
